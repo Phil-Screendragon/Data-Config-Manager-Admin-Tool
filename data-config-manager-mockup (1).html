@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Config Manager — UX Mockup</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/tabler-icons.min.css">
+<style>
+  :root {
+    --sd-charcoal: #261E1B;
+    --sd-cerulean: #0B6E8A;
+    --sd-cerulean-hover: #095C73;
+    --sd-cerulean-subtle: #E4F5FC;
+    --sd-cerulean-muted: #B8DDE8;
+    --stone-50: #FAFAF8;
+    --stone-100: #F1EFE8;
+    --stone-200: #ECEAE9;
+    --stone-300: #D3D1C7;
+    --stone-500: #8A807D;
+    --stone-600: #5F5E5A;
+    --stone-900: #261E1B;
+    --border-default: #ECEAE9;
+    --text-default: #261E1B;
+    --text-subtle: #5F5E5A;
+    --text-muted: #8A807D;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    margin: 0;
+    padding: 32px 24px;
+    background: #F5F4EF;
+    color: var(--text-default);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .container { max-width: 1080px; margin: 0 auto; }
+  .doc-header { margin-bottom: 32px; }
+  .doc-header h1 { font-size: 22px; font-weight: 500; margin: 0 0 6px; }
+  .doc-header p { margin: 0; color: var(--text-subtle); font-size: 14px; }
+  .doc-header .meta { margin-top: 12px; font-size: 12px; color: var(--text-muted); }
+
+  .screen-label {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 12px;
+    font-size: 12px; color: var(--text-muted);
+  }
+  .screen-label .tag {
+    font-weight: 500; color: var(--text-subtle);
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+
+  .mockup {
+    background: #FFFFFF; border-radius: 12px; overflow: hidden;
+    border: 0.5px solid var(--border-default);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    margin-bottom: 40px;
+  }
+
+  /* Top nav */
+  .nav {
+    background: var(--sd-charcoal);
+    padding: 12px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .breadcrumb {
+    display: flex; align-items: center; gap: 6px;
+    color: rgba(255,255,255,0.9); font-size: 13px;
+  }
+  .breadcrumb .sep { opacity: 0.4; }
+  .breadcrumb .dim { opacity: 0.7; }
+  .breadcrumb .current { font-weight: 500; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+
+  /* Body */
+  .body { display: flex; }
+
+  /* Sidebar */
+  .sidebar {
+    width: 220px; background: var(--stone-100);
+    padding: 12px 8px; border-right: 0.5px solid var(--border-default);
+    font-size: 13px; flex-shrink: 0;
+  }
+  .sidebar-header {
+    font-size: 11px; font-weight: 500; color: var(--text-muted);
+    letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 6px 10px 10px;
+  }
+  .nav-item {
+    padding: 8px 10px; color: var(--text-subtle);
+    display: flex; align-items: center; gap: 8px;
+    border-radius: 4px; margin: 1px 4px;
+  }
+  .nav-item i { font-size: 15px; }
+  .nav-item.active {
+    background: #FFFFFF; color: var(--sd-cerulean);
+    font-weight: 500; border-left: 3px solid var(--sd-cerulean);
+    border-radius: 0; padding-left: 7px;
+    margin-left: 4px;
+  }
+
+  /* Main content */
+  .main { flex: 1; background: #FFFFFF; min-height: 400px; }
+
+  /* Scope selection */
+  .scope { padding: 40px 48px; }
+  .scope h2 { font-size: 22px; font-weight: 500; margin: 0 0 6px; }
+  .scope .subtitle { font-size: 14px; color: var(--text-subtle); margin: 0 0 32px; }
+  .scope-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; max-width: 560px;
+  }
+  .scope-card {
+    background: #FFFFFF; border: 1px solid var(--border-default);
+    border-radius: 8px; padding: 24px;
+    cursor: pointer; transition: all 0.15s ease;
+  }
+  .scope-card:hover, .scope-card.hover-preview {
+    border-color: var(--sd-cerulean);
+    box-shadow: 0 2px 8px rgba(11,110,138,0.12);
+  }
+  .scope-card .icon-wrap {
+    width: 40px; height: 40px; border-radius: 8px;
+    background: var(--stone-100);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+  }
+  .scope-card.hover-preview .icon-wrap {
+    background: var(--sd-cerulean-subtle);
+  }
+  .scope-card .icon-wrap i { font-size: 20px; color: var(--stone-600); }
+  .scope-card.hover-preview .icon-wrap i { color: var(--sd-cerulean); }
+  .scope-card .title {
+    font-size: 16px; font-weight: 500;
+    color: var(--text-default); margin-bottom: 6px;
+  }
+  .scope-card .desc {
+    font-size: 13px; color: var(--text-subtle);
+    line-height: 1.5;
+  }
+
+  /* Reports view */
+  .reports { padding: 20px 24px; }
+  .change-scope {
+    font-size: 13px; color: var(--sd-cerulean);
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 4px;
+    margin-bottom: 16px;
+  }
+  .change-scope i { font-size: 14px; }
+
+  .filter-input {
+    position: relative; margin-bottom: 16px;
+  }
+  .filter-input i {
+    position: absolute; left: 12px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px; color: var(--text-muted);
+  }
+  .filter-input input {
+    width: 100%; padding: 10px 12px 10px 36px;
+    border: 1px solid var(--border-default); border-radius: 6px;
+    font-size: 14px; background: #FFFFFF;
+    font-family: inherit;
+  }
+  .filter-input input:focus {
+    outline: none; border-color: var(--sd-cerulean);
+    box-shadow: 0 0 0 3px var(--sd-cerulean-subtle);
+  }
+
+  .tabs {
+    display: flex; border-bottom: 1px solid var(--border-default);
+  }
+  .tab {
+    padding: 10px 16px; font-size: 13px; font-weight: 500;
+    color: var(--sd-cerulean);
+    border-bottom: 2px solid var(--sd-cerulean);
+    margin-bottom: -1px;
+  }
+
+  .table {
+    border: 1px solid var(--border-default);
+    border-top: none;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 2.4fr 1.2fr 1fr 1.1fr 1.1fr 0.8fr;
+    padding: 12px 16px; font-size: 13px;
+    border-bottom: 1px solid var(--stone-100);
+    align-items: center;
+  }
+  .row:last-child { border-bottom: none; }
+  .row.header {
+    background: var(--stone-100);
+    font-size: 11px; font-weight: 500;
+    color: var(--text-subtle);
+    letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 10px 16px;
+  }
+  .row.zebra { background: var(--stone-50); }
+  .row .title-cell { font-weight: 500; color: var(--text-default); }
+  .row .muted { color: var(--text-subtle); }
+
+  .note {
+    margin-top: 16px; font-size: 12px; color: var(--text-muted);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .note i { font-size: 14px; }
+
+  .callouts {
+    background: #FFFFFF;
+    border: 0.5px solid var(--border-default);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-top: 8px;
+  }
+  .callouts h3 {
+    font-size: 16px; font-weight: 500; margin: 0 0 16px;
+  }
+  .callouts ul { margin: 0; padding-left: 20px; }
+  .callouts li { margin-bottom: 10px; font-size: 13px; color: var(--text-subtle); line-height: 1.6; }
+  .callouts li strong { color: var(--text-default); font-weight: 500; }
+  .callouts code {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 12px; background: var(--stone-100);
+    padding: 1px 6px; border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="doc-header">
+    <h1>Data Config Manager — UX Mockup</h1>
+    <p>Rename of Search Config Manager. New scope selection step routes admins to Search or Reports configuration.</p>
+    <div class="meta">Draft v1 · Screendragon · For dev handoff</div>
+  </div>
+
+  <!-- ============ SCREEN 1 ============ -->
+  <div class="screen-label">
+    <span class="tag">Screen 1</span>
+    <span>— Scope selection (new middle step, replaces direct entry to Search Fields)</span>
+  </div>
+
+  <div class="mockup">
+    <div class="nav">
+      <div class="breadcrumb">
+        <span class="dim">Admin Tools</span>
+        <span class="sep">/</span>
+        <span class="current">Data Config Manager</span>
+      </div>
+      <div class="avatar"></div>
+    </div>
+
+    <div class="body">
+      <div class="sidebar">
+        <div class="sidebar-header">Sections</div>
+        <div class="nav-item"><i class="ti ti-layout-dashboard"></i>Dashboard Manager</div>
+        <div class="nav-item"><i class="ti ti-forms"></i>Form Builder</div>
+        <div class="nav-item"><i class="ti ti-users"></i>Group Management</div>
+        <div class="nav-item"><i class="ti ti-bell"></i>Notification Centre</div>
+        <div class="nav-item active"><i class="ti ti-search"></i>Data Config Manager</div>
+        <div class="nav-item"><i class="ti ti-palette"></i>Skin Manager</div>
+        <div class="nav-item"><i class="ti ti-settings"></i>System Log</div>
+      </div>
+
+      <div class="main scope">
+        <h2>Data Config Manager</h2>
+        <p class="subtitle">Choose what you'd like to configure.</p>
+
+        <div class="scope-grid">
+          <div class="scope-card hover-preview">
+            <div class="icon-wrap"><i class="ti ti-search"></i></div>
+            <div class="title">Search</div>
+            <div class="desc">Configure what forms and fields are indexed for global search.</div>
+          </div>
+          <div class="scope-card">
+            <div class="icon-wrap"><i class="ti ti-chart-bar"></i></div>
+            <div class="title">Reports</div>
+            <div class="desc">Configure what forms and fields are available for reporting.</div>
+          </div>
+        </div>
+
+        <div class="note">
+          <i class="ti ti-info-circle"></i>
+          <span>Hover state shown on Search card. Whole card is clickable — no CTA button.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SCREEN 2 ============ -->
+  <div class="screen-label">
+    <span class="tag">Screen 2</span>
+    <span>— Report Enabled Fields (after selecting Reports)</span>
+  </div>
+
+  <div class="mockup">
+    <div class="nav">
+      <div class="breadcrumb">
+        <span class="dim">Admin Tools</span>
+        <span class="sep">/</span>
+        <span class="dim">Data Config Manager</span>
+        <span class="sep">/</span>
+        <span class="current">Reports</span>
+      </div>
+      <div class="avatar"></div>
+    </div>
+
+    <div class="body">
+      <div class="sidebar">
+        <div class="sidebar-header">Sections</div>
+        <div class="nav-item"><i class="ti ti-layout-dashboard"></i>Dashboard Manager</div>
+        <div class="nav-item"><i class="ti ti-forms"></i>Form Builder</div>
+        <div class="nav-item"><i class="ti ti-users"></i>Group Management</div>
+        <div class="nav-item"><i class="ti ti-bell"></i>Notification Centre</div>
+        <div class="nav-item active"><i class="ti ti-search"></i>Data Config Manager</div>
+        <div class="nav-item"><i class="ti ti-palette"></i>Skin Manager</div>
+        <div class="nav-item"><i class="ti ti-settings"></i>System Log</div>
+      </div>
+
+      <div class="main reports">
+        <a href="#" class="change-scope"><i class="ti ti-arrow-left"></i>Change scope</a>
+
+        <div class="filter-input">
+          <i class="ti ti-search"></i>
+          <input type="text" placeholder="Filter here...">
+        </div>
+
+        <div class="tabs">
+          <div class="tab">Report Enabled Fields</div>
+        </div>
+
+        <div class="table">
+          <div class="row header">
+            <div>Title</div>
+            <div>Type</div>
+            <div>Modified By</div>
+            <div>Modified Date</div>
+            <div>Report Enabled</div>
+            <div>Excluded</div>
+          </div>
+          <div class="row">
+            <div class="title-cell">Action Tracker</div>
+            <div class="muted">Form</div>
+            <div class="muted">146</div>
+            <div class="muted">—</div>
+            <div>3</div>
+            <div class="muted">No</div>
+          </div>
+          <div class="row zebra">
+            <div class="title-cell">Design Brief</div>
+            <div class="muted">—</div>
+            <div class="muted">146</div>
+            <div class="muted">—</div>
+            <div>0</div>
+            <div class="muted">No</div>
+          </div>
+          <div class="row">
+            <div class="title-cell">Feedback Tracker</div>
+            <div class="muted">Form</div>
+            <div class="muted">146</div>
+            <div class="muted">—</div>
+            <div>7</div>
+            <div class="muted">No</div>
+          </div>
+          <div class="row zebra">
+            <div class="title-cell">Project Brief — Coca-Cola Europacific</div>
+            <div class="muted">Form, Project</div>
+            <div class="muted">146</div>
+            <div class="muted">—</div>
+            <div>12</div>
+            <div class="muted">No</div>
+          </div>
+          <div class="row">
+            <div class="title-cell">Project Brief — FIFA</div>
+            <div class="muted">Form, Project</div>
+            <div class="muted">146</div>
+            <div class="muted">—</div>
+            <div>18</div>
+            <div class="muted">No</div>
+          </div>
+          <div class="row zebra">
+            <div class="title-cell">Project Brief — Microsoft</div>
+            <div class="muted">Form, Project</div>
+            <div class="muted">146</div>
+            <div class="muted">—</div>
+            <div>0</div>
+            <div class="muted">No</div>
+          </div>
+          <div class="row">
+            <div class="title-cell">Project Brief — NVS</div>
+            <div class="muted">Form, Project</div>
+            <div class="muted">146</div>
+            <div class="muted">—</div>
+            <div>5</div>
+            <div class="muted">No</div>
+          </div>
+        </div>
+
+        <div class="note">
+          <i class="ti ti-info-circle"></i>
+          <span>Same interaction pattern as Search Fields. Row click drills into form-level field toggles.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
